@@ -1,8 +1,9 @@
 @echo off
-call mvn clean install
+call mvn install
 call ./properties.bat
-call hdfs dfs -fs %HDFS_HOST%:%HDFS_PORT% -rm -R %HDFS_WORK_DIRECTORY%
-call hdfs dfs -fs %HDFS_HOST%:%HDFS_PORT% -mkdir -p %HDFS_WORK_DIRECTORY%
-call hdfs dfs -fs %HDFS_HOST%:%HDFS_PORT% -put ./data.csv %HDFS_WORK_DIRECTORY%/data.csv
-call mvn exec:exec -Ddata.file=hdfs://%HDFS_HOST%:%HDFS_PORT%%HDFS_WORK_DIRECTORY%/data.csv -Dresults.file=hdfs://%HDFS_HOST%:%HDFS_PORT%%HDFS_WORK_DIRECTORY%/results.csv
-call hdfs dfs -fs %HDFS_HOST%:%HDFS_PORT% -getmerge %HDFS_WORK_DIRECTORY%/results.csv ./results.csv
+set HDFS_FILESYSTEM=hdfs://%HDFS_HOST%:%HDFS_PORT%/
+call hdfs dfs -fs %HDFS_FILESYSTEM% -rm -R %HDFS_WORK_DIRECTORY%
+call hdfs dfs -fs %HDFS_FILESYSTEM% -mkdir -p %HDFS_WORK_DIRECTORY%
+call hdfs dfs -fs %HDFS_FILESYSTEM% -put ./data.csv %HDFS_WORK_DIRECTORY%/data.csv
+call mvn exec:exec -Ddata.file=%HDFS_FILESYSTEM%%HDFS_WORK_DIRECTORY%/data.csv -Dresults.file=%HDFS_FILESYSTEM%%HDFS_WORK_DIRECTORY%/results.csv
+call hdfs dfs -fs %HDFS_FILESYSTEM% -getmerge %HDFS_WORK_DIRECTORY%/results.csv ./results.csv
