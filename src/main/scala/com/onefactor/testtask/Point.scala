@@ -15,4 +15,20 @@ class Point(xc: Int, yc: Int) extends Serializable {
    override def toString() : String = {
      x + "," + y
    }
+   
+  def canEqual(a: Any) = a.isInstanceOf[Point]
+
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: Point => that.canEqual(this) && this.x == that.x && this.y == that.y
+      case _ => false
+   }
+
+  override def hashCode:Int = {
+    val prime = 31
+    var result = 1
+    result = prime * result + x
+    result = prime * result + y
+    return result
+  }
 }

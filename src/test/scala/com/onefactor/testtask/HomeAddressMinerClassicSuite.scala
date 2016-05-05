@@ -10,11 +10,11 @@ import org.junit.runner.RunWith
 import com.holdenkarau.spark.testing._
 
 @RunWith(classOf[JUnitRunner])
-class HomeAddressMinerSuite extends FunSuite with SharedSparkContext {
+class HomeAddressMinerClassicSuite extends FunSuite with SharedSparkContext {
   test("device owner should sleep") {
     val input = Source.fromInputStream(getClass.getResourceAsStream("/com/onefactor/testtask/nosleep.csv")).getLines.toList
     val expected = Array("1," + Int.MinValue + "," + Int.MinValue)
-    val miner = new HomeAddressMiner();
+    val miner = new HomeAddressMinerClassic();
     val results = miner.mineHomeAddresses(sc.parallelize(input,4)).collect();
     assert(results.deep == expected.deep)
   }
@@ -22,7 +22,7 @@ class HomeAddressMinerSuite extends FunSuite with SharedSparkContext {
   test("device owner sleeps, one candidate home point") {
     val input = Source.fromInputStream(getClass.getResourceAsStream("/com/onefactor/testtask/sleeponepoint.csv")).getLines.toList
     val expected = Array("1,200,200")
-    val miner = new HomeAddressMiner();
+    val miner = new HomeAddressMinerClassic();
     val results = miner.mineHomeAddresses(sc.parallelize(input,4)).collect();
     assert(results.deep == expected.deep)
   }
@@ -30,14 +30,14 @@ class HomeAddressMinerSuite extends FunSuite with SharedSparkContext {
   test("device owner sleeps, more than one candidate home point") {
     val input = Source.fromInputStream(getClass.getResourceAsStream("/com/onefactor/testtask/sleepmorepoints.csv")).getLines.toList
     val expected = Array("1,200,200")
-    val miner = new HomeAddressMiner();
+    val miner = new HomeAddressMinerClassic();
     val results = miner.mineHomeAddresses(sc.parallelize(input,4)).collect();
     assert(results.deep == expected.deep)
   }
   
   test("real data should be close to manual analisys") {
     val input = Source.fromInputStream(getClass.getResourceAsStream("/com/onefactor/testtask/realdata.csv")).getLines.toList
-    val miner = new HomeAddressMiner();
+    val miner = new HomeAddressMinerClassic();
     val expected = Map(("1070",new Point(2489,5693)),("778",new Point(2783,5693)))
     val results = miner.mineHomeAddresses(sc.parallelize(input,4)).collect().map { x => 
       val tokens = x.split(",");

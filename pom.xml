@@ -111,8 +111,9 @@
             <argument>-classpath</argument>
             <classpath/>
             <argument>com.onefactor.testtask.HomeAddressMinerMain</argument>
-			<argument>${data.file}</argument>
-			<argument>${results.file}</argument>
+            <argument>${data.file}</argument>
+            <argument>${results.file}</argument>
+            <argument>${mining.algorithm}</argument>
            </arguments>
         </configuration>
       </plugin>

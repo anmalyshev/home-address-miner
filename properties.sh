@@ -3,4 +3,3 @@ HDFS_HOST=localhost
 HDFS_PORT=19000
 HDFS_WORK_DIRECTORY=/data
 
-
